@@ -10,7 +10,7 @@ Para executar a API local, edite o arquivo api/db.json e execute:
 npm install 
 npm run api
 ```
-
+luis daniel, josé vinny, Geysla rebeca
 A API sobe em `http://localhost:3001`.
 
 Se for usar a PokéAPI, pode apagar a pasta `api/` e o arquivo `package.json`.
