@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AgendaFlow - Sistema de gerenciamento de agendamentos">
+  <title>AgendaFlow | Gestão de Agendamentos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-icon">A</div>
+        <div>
+          <h2>AgendaFlow</h2>
+          <span>Gestão inteligente</span>
+        </div>
+      </div>
+
+      <nav class="navigation">
+        <span class="nav-label">MENU PRINCIPAL</span>
+        <button class="nav-link active" data-page="dashboard">
+          <span>▦</span> Visão geral
+        </button>
+        <button class="nav-link" data-page="appointments">
+          <span>▤</span> Agendamentos
+        </button>
+        <button class="nav-link" data-page="calendar">
+          <span>▦</span> Calendário
+        </button>
+        <button class="nav-link" data-page="clients">
+          <span>♙</span> Clientes
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="profile-avatar">AF</div>
+        <div>
+          <strong>Administrador</strong>
+          <span>Conta principal</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="menu-button" id="mobileMenu" aria-label="Abrir menu">☰</button>
+        <div class="breadcrumb">
+          <span>AgendaFlow</span>
+          <span>/</span>
+          <strong id="pageTitle">Visão geral</strong>
+        </div>
+        <button class="primary-button" data-new-appointment>+ Novo agendamento</button>
+      </header>
+
+      <div class="content-area">
+        <section class="page-section active" data-page="dashboard">
+          <div class="page-heading">
+            <div>
+              <h1>Visão geral</h1>
+              <p id="pageSubtitle">Acompanhe os principais dados da sua agenda.</p>
+            </div>
+            <span class="date-display" id="todayDisplay"></span>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card">
+              <div class="stat-icon blue">▤</div>
+              <span>Agendamentos de hoje</span>
+              <strong id="statToday">0</strong>
+              <small>Atendimentos do dia</small>
+            </article>
+            <article class="stat-card">
+              <div class="stat-icon green">✓</div>
+              <span>Confirmados</span>
+              <strong id="statConfirmed">0</strong>
+              <small>Agendamentos confirmados</small>
+            </article>
+            <article class="stat-card">
+              <div class="stat-icon purple">♙</div>
+              <span>Total de clientes</span>
+              <strong id="statClients">0</strong>
+              <small>Clientes cadastrados</small>
+            </article>
+            <article class="stat-card">
+              <div class="stat-icon orange">◷</div>
+              <span>Pendentes</span>
+              <strong id="statPending">0</strong>
+              <small>Aguardando confirmação</small>
+            </article>
+          </div>
+
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Agendamentos de hoje</h2>
+                <p>Consulte os atendimentos programados.</p>
+              </div>
+              <button class="text-button" data-go="appointments">Ver todos</button>
+            </div>
+
+            <div class="toolbar">
+              <input type="search" id="homeSearch" placeholder="Buscar cliente ou serviço">
+              <select id="homeStatus">
+                <option value="all">Todos os status</option>
+                <option value="confirmed">Confirmados</option>
+                <option value="pending">Pendentes</option>
+                <option value="completed">Concluídos</option>
+                <option value="cancelled">Cancelados</option>
+              </select>
+            </div>
+
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Horário</th>
+                    <th>Cliente</th>
+                    <th>Serviço</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="homeRows"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="page-section" data-page="appointments">
+          <div class="page-heading">
+            <div>
+              <h1>Agendamentos</h1>
+              <p>Gerencie todos os seus atendimentos.</p>
+            </div>
+            <button class="primary-button" data-new-appointment>+ Novo agendamento</button>
+          </div>
+
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Todos os agendamentos</h2>
+                <p>Consulte, edite ou exclua seus registros.</p>
+              </div>
+              <button class="secondary-button" id="exportBtn">Exportar CSV</button>
+            </div>
+
+            <div class="toolbar">
+              <input type="search" id="allSearch" placeholder="Buscar cliente ou serviço">
+              <select id="allStatus">
+                <option value="all">Todos os status</option>
+                <option value="confirmed">Confirmados</option>
+                <option value="pending">Pendentes</option>
+                <option value="completed">Concluídos</option>
+                <option value="cancelled">Cancelados</option>
+              </select>
+            </div>
+
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Horário</th>
+                    <th>Cliente</th>
+                    <th>Serviço</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="allRows"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="page-section" data-page="calendar">
+          <div class="page-heading">
+            <div>
+              <h1>Calendário</h1>
+              <p>Visualize seus compromissos por data.</p>
+            </div>
+          </div>
+
+          <div class="calendar-layout">
+            <section class="panel calendar-panel">
+              <div class="calendar-header">
+                <button class="icon-button" id="prevMonth">‹</button>
+                <h2 id="monthLabel"></h2>
+                <button class="icon-button" id="nextMonth">›</button>
+              </div>
+              <div class="calendar-weekdays">
+                <span>Dom</span>
+                <span>Seg</span>
+                <span>Ter</span>
+                <span>Qua</span>
+                <span>Qui</span>
+                <span>Sex</span>
+                <span>Sáb</span>
+              </div>
+              <div class="calendar-days" id="calendarDays"></div>
+            </section>
+
+            <section class="panel timeline-panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Compromissos</h2>
+                  <p id="selectedDateLabel"></p>
+                </div>
+                <button class="icon-button" data-new-appointment>+</button>
+              </div>
+              <div id="dayTimeline"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page-section" data-page="clients">
+          <div class="page-heading">
+            <div>
+              <h1>Clientes</h1>
+              <p>Gerencie seus clientes cadastrados.</p>
+            </div>
+            <button class="primary-button" data-new-client>+ Novo cliente</button>
+          </div>
+
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Lista de clientes</h2>
+                <p>Consulte e atualize seus cadastros.</p>
+              </div>
+            </div>
+            <div class="toolbar">
+              <input type="search" id="clientSearch" placeholder="Buscar cliente">
+            </div>
+            <div class="client-grid" id="clientGrid"></div>
+          </section>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="appointmentModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h2 id="appointmentModalTitle">Novo agendamento</h2>
+          <p>Preencha os dados do atendimento.</p>
+        </div>
+        <button class="close-button" data-close>×</button>
+      </div>
+
+      <form id="appointmentForm">
+        <div class="form-group">
+          <label for="appointmentClient">Cliente</label>
+          <select id="appointmentClient" required>
+            <option value="">Selecione um cliente</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="appointmentService">Serviço</label>
+          <input type="text" id="appointmentService" placeholder="Nome do serviço" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="appointmentDate">Data</label>
+            <input type="date" id="appointmentDate" required>
+          </div>
+          <div class="form-group">
+            <label for="appointmentTime">Horário</label>
+            <input type="time" id="appointmentTime" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="appointmentPhone">Telefone</label>
+          <input type="tel" id="appointmentPhone" placeholder="Telefone para contato">
+        </div>
+
+        <div class="form-group">
+          <label for="appointmentStatus">Status</label>
+          <select id="appointmentStatus">
+            <option value="pending">Pendente</option>
+            <option value="confirmed">Confirmado</option>
+            <option value="completed">Concluído</option>
+            <option value="cancelled">Cancelado</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="appointmentNotes">Observações</label>
+          <textarea id="appointmentNotes" rows="3" placeholder="Informações adicionais"></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="secondary-button" data-close>Cancelar</button>
+          <button type="submit" class="primary-button">Salvar agendamento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="clientModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h2 id="clientModalTitle">Novo cliente</h2>
+          <p>Preencha os dados do cliente.</p>
+        </div>
+        <button class="close-button" data-close>×</button>
+      </div>
+
+      <form id="clientForm">
+        <div class="form-group">
+          <label for="clientName">Nome completo</label>
+          <input type="text" id="clientName" placeholder="Nome do cliente" required>
+        </div>
+
+        <div class="form-group">
+          <label for="clientPhone">Telefone</label>
+          <input type="tel" id="clientPhone" placeholder="Telefone do cliente" required>
+        </div>
+
+        <div class="form-group">
+          <label for="clientEmail">E-mail</label>
+          <input type="email" id="clientEmail" placeholder="E-mail do cliente">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="secondary-button" data-close>Cancelar</button>
+          <button type="submit" class="primary-button">Salvar cliente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
